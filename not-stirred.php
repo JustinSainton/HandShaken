@@ -52,54 +52,46 @@ class WP_HandShaken {
 	}
 
 	public function init_post_types() {
-		if ( ! function_exists('wp_handshaken_custom_post_type') ) {
 
-		// Register Custom Post Type
-		function wp_handshaken_custom_post_type() {
+		$labels = array(
+			'name'                => _x( 'Notes', 'Post Type General Name', 'handshaken' ),
+			'singular_name'       => _x( 'Note', 'Post Type Singular Name', 'handshaken' ),
+			'menu_name'           => __( 'Notes', 'handshaken' ),
+			'name_admin_bar'      => __( 'Notes', 'handshaken' ),
+			'all_items'           => __( 'All Notes', 'handshaken' ),
+			'add_new_item'        => __( 'Create New Note', 'handshaken' ),
+			'add_new'             => __( 'Add New', 'handshaken' ), //Is this Line needed?
+			'new_item'            => __( 'New Note', 'handshaken' ),
+			'edit_item'           => __( 'Edit Note', 'handshaken' ),
+			'view_item'           => __( 'View Note', 'handshaken' ),
+			'search_items'        => __( 'Search Notes', 'handshaken' ),
+			'not_found'           => __( 'Note Not found', 'handshaken' ),
+			'not_found_in_trash'  => __( 'Not found in Trash', 'handshaken' ),
+		);
 
-			$labels = array(
-				'name'                => _x( 'Notes', 'Post Type General Name', 'handshaken' ),
-				'singular_name'       => _x( 'Note', 'Post Type Singular Name', 'handshaken' ),
-				'menu_name'           => __( 'Notes', 'handshaken' ),
-				'name_admin_bar'      => __( 'Notes', 'handshaken' ),
-				'all_items'           => __( 'All Notes', 'handshaken' ),
-				'add_new_item'        => __( 'Create New Note', 'handshaken' ),
-				'add_new'             => __( 'Add New', 'handshaken' ), //Is this Line needed?
-				'new_item'            => __( 'New Note', 'handshaken' ),
-				'edit_item'           => __( 'Edit Note', 'handshaken' ),
-				'view_item'           => __( 'View Note', 'handshaken' ),
-				'search_items'        => __( 'Search Notes', 'handshaken' ),
-				'not_found'           => __( 'Note Not found', 'handshaken' ),
-				'not_found_in_trash'  => __( 'Not found in Trash', 'handshaken' ),
-			);
-			$args = array(
-				'label'               => __( 'Notes', 'handshaken' ),
-				'description'         => __( 'Custom handwritten notes', 'handshaken' ),
-				'labels'              => $labels,
-				'supports'            => array( 'title', 'custom-fields', ),
-				'taxonomies'          => array( 'category', 'post_tag' ),
-				'hierarchical'        => false,
-				'public'              => true,
-				'show_ui'             => true,
-				'show_in_menu'        => true,
-				'menu_position'       => 5,
-				'menu_icon'           => 'dashicons-welcome-write-blog',
-				'show_in_admin_bar'   => true,
-				'show_in_nav_menus'   => false,
-				'can_export'          => true,
-				'has_archive'         => true,
-				'exclude_from_search' => false,
-				'publicly_queryable'  => false,
-				'capability_type'     => 'post',
-			);
-			register_post_type( 'Notes', $args );
+		$args = array(
+			'label'               => __( 'Notes', 'handshaken' ),
+			'description'         => __( 'Custom handwritten notes', 'handshaken' ),
+			'labels'              => $labels,
+			'supports'            => array( 'title', 'custom-fields', ),
+			'taxonomies'          => array( 'category', 'post_tag' ),
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'menu_position'       => 5,
+			'menu_icon'           => 'dashicons-welcome-write-blog',
+			'show_in_admin_bar'   => true,
+			'show_in_nav_menus'   => false,
+			'can_export'          => true,
+			'has_archive'         => true,
+			'exclude_from_search' => false,
+			'publicly_queryable'  => false,
+			'capability_type'     => 'post',
+		);
 
-		}
+		register_post_type( 'Notes', $args );
 
-// Hook into the 'init' action
-add_action( 'init', 'wp_handshaken_custom_post_type', 0 );
-
-}
 	}
 
 	public function init_taxonomies() {
