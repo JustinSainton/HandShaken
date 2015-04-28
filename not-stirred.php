@@ -65,7 +65,7 @@ class WP_HandShaken {
 			'edit_item'           => __( 'Edit Note', 'handshaken' ),
 			'view_item'           => __( 'View Note', 'handshaken' ),
 			'search_items'        => __( 'Search Notes', 'handshaken' ),
-			'not_found'           => __( 'Note Not found', 'handshaken' ),
+			'not_found'           => __( 'No notes found', 'handshaken' ),
 			'not_found_in_trash'  => __( 'Not found in Trash', 'handshaken' ),
 		);
 
