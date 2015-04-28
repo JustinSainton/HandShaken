@@ -25,6 +25,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * TODO :
+ *
+ * 1. Build out Handshaken API SDK.
+ * 2. Build out settings panel for entering Handshaken data.
+ * 3. Build out custom post types and taxonomies for notes, customers, addresses.
+ */
+
 class WP_HandShaken {
 	private static $instance;
 
