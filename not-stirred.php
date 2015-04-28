@@ -73,7 +73,7 @@ class WP_HandShaken {
 			'label'               => __( 'Notes', 'handshaken' ),
 			'description'         => __( 'Custom handwritten notes', 'handshaken' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'custom-fields', ),
+			'supports'            => array( 'title', 'custom-fields', 'editor' ),
 			'taxonomies'          => array( 'category', 'post_tag' ),
 			'hierarchical'        => false,
 			'public'              => true,
