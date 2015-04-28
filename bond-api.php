@@ -28,5 +28,3 @@ class WP_Bond_API {
 }
 
 $message = new WP_Bond_API( array( 'url' => '' ) );
-
-$message->set( Message )->sanitize( Data )->send();

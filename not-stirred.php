@@ -90,7 +90,7 @@ class WP_HandShaken {
 			'capability_type'     => 'post',
 		);
 
-		register_post_type( 'Notes', $args );
+		register_post_type( 'notes', $args );
 
 		$labels = array(
 			'name'                => _x( 'Recipients', 'Post Type General Name', 'handshaken' ),
@@ -116,7 +116,7 @@ class WP_HandShaken {
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => edit.php?post_type=notes,
+			'show_in_menu'        => 'edit.php?post_type=notes',
 			'menu_position'       => 5,
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => false,
@@ -126,7 +126,7 @@ class WP_HandShaken {
 			'publicly_queryable'  => false,
 			'capability_type'     => 'post',
 		);
-		register_post_type( 'Recipients', $args );
+		register_post_type( 'recipients', $args );
 
 		$labels = array(
 			'name'                => _x( 'Templates', 'Post Type General Name', 'handshaken' ),
@@ -152,7 +152,7 @@ class WP_HandShaken {
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => edit.php?post_type=notes,
+			'show_in_menu'        => 'edit.php?post_type=notes',
 			'menu_position'       => 5,
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => false,
@@ -162,7 +162,7 @@ class WP_HandShaken {
 			'publicly_queryable'  => false,
 			'capability_type'     => 'post',
 		);
-		register_post_type( 'Templates', $args );
+		register_post_type( 'templates', $args );
 
 	}
 
