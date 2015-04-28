@@ -97,7 +97,7 @@ class WP_HandShaken {
 			'singular_name'       => _x( 'Recipient', 'Post Type Singular Name', 'handshaken' ),
 			'menu_name'           => __( 'Recipients', 'handshaken' ),
 			'name_admin_bar'      => __( 'Recipients', 'handshaken' ),
-			'all_items'           => __( 'All Recipients', 'handshaken' ),
+			'all_items'           => __( 'Recipients', 'handshaken' ),
 			'add_new_item'        => __( 'Add New Recipient', 'handshaken' ),
 			'add_new'             => __( 'Add New', 'handshaken' ), // Is this needed?
 			'edit_item'           => __( 'Edit Recipient', 'handshaken' ),
@@ -133,7 +133,7 @@ class WP_HandShaken {
 			'singular_name'       => _x( 'Template', 'Post Type Singular Name', 'handshaken' ),
 			'menu_name'           => __( 'Templates', 'handshaken' ),
 			'name_admin_bar'      => __( 'Templates', 'handshaken' ),
-			'all_items'           => __( 'All Templates', 'handshaken' ),
+			'all_items'           => __( 'Templates', 'handshaken' ),
 			'add_new_item'        => __( 'Add New Template', 'handshaken' ),
 			'add_new'             => __( 'Add New', 'handshaken' ), // Is this needed?
 			'edit_item'           => __( 'Edit Template', 'handshaken' ),
