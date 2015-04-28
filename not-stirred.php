@@ -116,9 +116,8 @@ class WP_HandShaken {
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => true,
+			'show_in_menu'        => edit.php?post_type=notes,
 			'menu_position'       => 5,
-			'menu_icon'           => 'dashicons-businessman',
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => false,
 			'can_export'          => true,
@@ -128,6 +127,42 @@ class WP_HandShaken {
 			'capability_type'     => 'post',
 		);
 		register_post_type( 'Recipients', $args );
+
+		$labels = array(
+			'name'                => _x( 'Templates', 'Post Type General Name', 'handshaken' ),
+			'singular_name'       => _x( 'Template', 'Post Type Singular Name', 'handshaken' ),
+			'menu_name'           => __( 'Templates', 'handshaken' ),
+			'name_admin_bar'      => __( 'Templates', 'handshaken' ),
+			'all_items'           => __( 'All Templates', 'handshaken' ),
+			'add_new_item'        => __( 'Add New Template', 'handshaken' ),
+			'add_new'             => __( 'Add New', 'handshaken' ), // Is this needed?
+			'edit_item'           => __( 'Edit Template', 'handshaken' ),
+			'update_item'         => __( 'Update Template', 'handshaken' ),
+			'view_item'           => __( 'View Template', 'handshaken' ),
+			'search_items'        => __( 'Search Templates', 'handshaken' ),
+			'not_found'           => __( 'Template not found', 'handshaken' ),
+			'not_found_in_trash'  => __( 'Template not found in Trash', 'handshaken' ),
+		);
+		$args = array(
+			'label'               => __( 'Templates', 'handshaken' ),
+			'description'         => __( 'Template of a Bond Handwritten Note', 'handshaken' ),
+			'labels'              => $labels,
+			'supports'            => array( 'title', 'custom-fields', ),
+			'taxonomies'          => array( 'category', 'post_tag' ),
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => edit.php?post_type=notes,
+			'menu_position'       => 5,
+			'show_in_admin_bar'   => true,
+			'show_in_nav_menus'   => false,
+			'can_export'          => true,
+			'has_archive'         => true,
+			'exclude_from_search' => false,
+			'publicly_queryable'  => false,
+			'capability_type'     => 'post',
+		);
+		register_post_type( 'Templates', $args );
 
 	}
 
