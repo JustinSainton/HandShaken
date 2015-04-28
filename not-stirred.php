@@ -44,6 +44,15 @@ class WP_HandShaken {
 	}
 
 	private function init() {
+		add_action( 'init', array( self::$instance, 'init_post_types' ) );
+		add_action( 'init', array( self::$instance, 'init_taxonomies' ) );
+	}
+
+	public function init_post_types() {
+
+	}
+
+	public function init_taxonomies() {
 
 	}
 }
