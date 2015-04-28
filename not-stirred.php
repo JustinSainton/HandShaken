@@ -92,7 +92,7 @@ class WP_HandShaken {
 
 		register_post_type( 'Notes', $args );
 
-			$labels = array(
+		$labels = array(
 			'name'                => _x( 'Recipients', 'Post Type General Name', 'handshaken' ),
 			'singular_name'       => _x( 'Recipient', 'Post Type Singular Name', 'handshaken' ),
 			'menu_name'           => __( 'Recipients', 'handshaken' ),
