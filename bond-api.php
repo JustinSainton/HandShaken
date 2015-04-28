@@ -26,10 +26,6 @@ class WP_Bond_API {
 		$this->endpoint = $this->endpoints[ $args['endpoint'] ];
 	}
 
-	public function __set( $name, $value ) {
-		if ( prop )
-	}
-
 	private function get_api_key() {
 		return apply_filters( 'wp_bond_api_key', get_option( 'wp_bond_api_key', '' ) );
 	}
