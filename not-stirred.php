@@ -92,6 +92,43 @@ class WP_HandShaken {
 
 		register_post_type( 'Notes', $args );
 
+			$labels = array(
+			'name'                => _x( 'Recipients', 'Post Type General Name', 'handshaken' ),
+			'singular_name'       => _x( 'Recipient', 'Post Type Singular Name', 'handshaken' ),
+			'menu_name'           => __( 'Recipients', 'handshaken' ),
+			'name_admin_bar'      => __( 'Recipients', 'handshaken' ),
+			'all_items'           => __( 'All Recipients', 'handshaken' ),
+			'add_new_item'        => __( 'Add New Recipient', 'handshaken' ),
+			'add_new'             => __( 'Add New', 'handshaken' ), // Is this needed?
+			'edit_item'           => __( 'Edit Recipient', 'handshaken' ),
+			'update_item'         => __( 'Update Recipient', 'handshaken' ),
+			'view_item'           => __( 'View Recipient', 'handshaken' ),
+			'search_items'        => __( 'Search Recipients', 'handshaken' ),
+			'not_found'           => __( 'Recipient not found', 'handshaken' ),
+			'not_found_in_trash'  => __( 'Recipient not found in Trash', 'handshaken' ),
+		);
+		$args = array(
+			'label'               => __( 'Recipients', 'handshaken' ),
+			'description'         => __( 'Recipient of a Bond Handwritten Note', 'handshaken' ),
+			'labels'              => $labels,
+			'supports'            => array( 'title', 'custom-fields', ),
+			'taxonomies'          => array( 'category', 'post_tag' ),
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'menu_position'       => 5,
+			'menu_icon'           => 'dashicons-businessman',
+			'show_in_admin_bar'   => true,
+			'show_in_nav_menus'   => false,
+			'can_export'          => true,
+			'has_archive'         => true,
+			'exclude_from_search' => false,
+			'publicly_queryable'  => false,
+			'capability_type'     => 'post',
+		);
+		register_post_type( 'Recipients', $args );
+
 	}
 
 	public function init_taxonomies() {
