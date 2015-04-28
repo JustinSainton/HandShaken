@@ -44,6 +44,9 @@ class WP_HandShaken {
 	}
 
 	private function init() {
+
+		self::$instance->includes();
+
 		add_action( 'init', array( self::$instance, 'init_post_types' ) );
 		add_action( 'init', array( self::$instance, 'init_taxonomies' ) );
 	}
@@ -54,6 +57,10 @@ class WP_HandShaken {
 
 	public function init_taxonomies() {
 
+	}
+
+	private function includes() {
+		include_once 'bond-api.php';
 	}
 }
 
