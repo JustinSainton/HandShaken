@@ -65,7 +65,7 @@ class WP_HandShaken {
 			'edit_item'           => __( 'Edit Note', 'handshaken' ),
 			'view_item'           => __( 'View Note', 'handshaken' ),
 			'search_items'        => __( 'Search Notes', 'handshaken' ),
-			'not_found'           => __( 'Note Not found', 'handshaken' ),
+			'not_found'           => __( 'No notes found', 'handshaken' ),
 			'not_found_in_trash'  => __( 'Not found in Trash', 'handshaken' ),
 		);
 
@@ -73,8 +73,8 @@ class WP_HandShaken {
 			'label'               => __( 'Notes', 'handshaken' ),
 			'description'         => __( 'Custom handwritten notes', 'handshaken' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'custom-fields', ),
-			'taxonomies'          => array( 'category', 'post_tag' ),
+			'supports'            => array( 'title', 'custom-fields', 'editor' ),
+			'taxonomies'          => array( 'category' ),
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
@@ -90,14 +90,14 @@ class WP_HandShaken {
 			'capability_type'     => 'post',
 		);
 
-		register_post_type( 'Notes', $args );
+		register_post_type( 'notes', $args );
 
 		$labels = array(
 			'name'                => _x( 'Recipients', 'Post Type General Name', 'handshaken' ),
 			'singular_name'       => _x( 'Recipient', 'Post Type Singular Name', 'handshaken' ),
 			'menu_name'           => __( 'Recipients', 'handshaken' ),
 			'name_admin_bar'      => __( 'Recipients', 'handshaken' ),
-			'all_items'           => __( 'All Recipients', 'handshaken' ),
+			'all_items'           => __( 'Recipients', 'handshaken' ),
 			'add_new_item'        => __( 'Add New Recipient', 'handshaken' ),
 			'add_new'             => __( 'Add New', 'handshaken' ), // Is this needed?
 			'edit_item'           => __( 'Edit Recipient', 'handshaken' ),
@@ -112,7 +112,7 @@ class WP_HandShaken {
 			'description'         => __( 'Recipient of a Bond Handwritten Note', 'handshaken' ),
 			'labels'              => $labels,
 			'supports'            => array( 'title', 'custom-fields', ),
-			'taxonomies'          => array( 'category', 'post_tag' ),
+			'taxonomies'          => array( 'category' ),
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
@@ -126,14 +126,14 @@ class WP_HandShaken {
 			'publicly_queryable'  => false,
 			'capability_type'     => 'post',
 		);
-		register_post_type( 'Recipients', $args );
+		register_post_type( 'recipients', $args );
 
 		$labels = array(
 			'name'                => _x( 'Templates', 'Post Type General Name', 'handshaken' ),
 			'singular_name'       => _x( 'Template', 'Post Type Singular Name', 'handshaken' ),
 			'menu_name'           => __( 'Templates', 'handshaken' ),
 			'name_admin_bar'      => __( 'Templates', 'handshaken' ),
-			'all_items'           => __( 'All Templates', 'handshaken' ),
+			'all_items'           => __( 'Templates', 'handshaken' ),
 			'add_new_item'        => __( 'Add New Template', 'handshaken' ),
 			'add_new'             => __( 'Add New', 'handshaken' ), // Is this needed?
 			'edit_item'           => __( 'Edit Template', 'handshaken' ),
@@ -147,8 +147,8 @@ class WP_HandShaken {
 			'label'               => __( 'Templates', 'handshaken' ),
 			'description'         => __( 'Template of a Bond Handwritten Note', 'handshaken' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'custom-fields', ),
-			'taxonomies'          => array( 'category', 'post_tag' ),
+			'supports'            => array( 'title', 'editor' ),
+			'taxonomies'          => array(),
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
@@ -162,7 +162,7 @@ class WP_HandShaken {
 			'publicly_queryable'  => false,
 			'capability_type'     => 'post',
 		);
-		register_post_type( 'Templates', $args );
+		register_post_type( 'templates', $args );
 
 	}
 
