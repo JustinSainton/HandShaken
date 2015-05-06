@@ -169,17 +169,17 @@ class WP_HandShaken {
 	/**
 	 * Adds a box to the main column on the Notes edit screen.
 	 */
-	function handshaken_add_meta_box() {
+	function handshaken_add_meta_box( $post_type ) {
 		
 		add_meta_box( 
 			'handshaken_fields', 
 			__( 'Handwritten Note Options', 'handshaken' ), 
-			'handshaken_metabox_callback',
+			'handshaken_meta_box_callback',
 			'notes'
 		);
 	}
 
-	add_action( 'add_meta_boxes', 'handshaken_add_meta_box' );
+	add_action( 'add_meta_boxes_post', 'handshaken_add_meta_box' );
 
 	/**
 	 * Prints the box content.
@@ -210,10 +210,10 @@ class WP_HandShaken {
 	 */
 	function myplugin_save_meta_box_data( $post_id ) {
 
-		/*
+		
 		 * We need to verify this came from our screen and with proper authorization,
 		 * because the save_post action can be triggered at other times.
-		 */
+		 
 
 		// Check if our nonce is set.
 		if ( ! isset( $_POST['handshaken_meta_box_nonce'] ) ) {
