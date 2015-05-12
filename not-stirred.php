@@ -49,8 +49,8 @@ class WP_HandShaken {
 
 		add_action( 'init', array( self::$instance, 'init_post_types' ) );
 		add_action( 'init', array( self::$instance, 'init_taxonomies' ) );
-		// add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
-  //       add_action( 'save_post', array( $this, 'save' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
+        add_action( 'save_post', array( $this, 'save' ) );
 	}
 
 	public function init_post_types() {
@@ -167,11 +167,11 @@ class WP_HandShaken {
 		register_post_type( 'senders', $args );
 
 		$labels = array(
-			'name'                => _x( 'Templates', 'Post Type General Name', 'handshaken' ),
-			'singular_name'       => _x( 'Template', 'Post Type Singular Name', 'handshaken' ),
-			'menu_name'           => __( 'Templates', 'handshaken' ),
-			'name_admin_bar'      => __( 'Templates', 'handshaken' ),
-			'all_items'           => __( 'Templates', 'handshaken' ),
+			'name'                => _x( 'Message Templates', 'Post Type General Name', 'handshaken' ),
+			'singular_name'       => _x( 'Message Template', 'Post Type Singular Name', 'handshaken' ),
+			'menu_name'           => __( 'Message Templates', 'handshaken' ),
+			'name_admin_bar'      => __( 'Message Templates', 'handshaken' ),
+			'all_items'           => __( 'Message Templates', 'handshaken' ),
 			'add_new_item'        => __( 'Add New Template', 'handshaken' ),
 			'add_new'             => __( 'Add New Template', 'handshaken' ),
 			'edit_item'           => __( 'Edit Template', 'handshaken' ),
@@ -182,8 +182,8 @@ class WP_HandShaken {
 			'not_found_in_trash'  => __( 'Template not found in Trash', 'handshaken' ),
 		);
 		$args = array(
-			'label'               => __( 'Templates', 'handshaken' ),
-			'description'         => __( 'Template of a Bond Handwritten Note', 'handshaken' ),
+			'label'               => __( 'Message Templates', 'handshaken' ),
+			'description'         => __( 'Pre-drafted reusable messages', 'handshaken' ),
 			'labels'              => $labels,
 			'supports'            => array( 'title', 'editor' ),
 			'taxonomies'          => array(),
@@ -200,7 +200,7 @@ class WP_HandShaken {
 			'publicly_queryable'  => false,
 			'capability_type'     => 'post',
 		);
-		register_post_type( 'templates', $args );
+		register_post_type( 'message_templates', $args );
 
 	}
 
@@ -208,95 +208,200 @@ class WP_HandShaken {
 	 * Adds the meta box container.
 	 */
 
-	// public function add_meta_box( $post_type ) {
- //        $post_types = 'notes';             //limit meta box to certain post types
- //        if ( in_array( $post_type, $post_types )) {
-	// 		add_meta_box(
-	// 			'handshaken_fields', 
-	// 			__( 'Handwritten Note Options', 'handshaken' ), 
-	// 			array( $this, 'render_meta_box_content' ),
-	// 			$post_type,
-	// 			'advanced',
-	// 			'high'
-	// 		);
-	//     }
-	// }
+	public function add_meta_box( $post_type ) {
+        $post_type = 'notes';             //limit meta box to certain post types
+			add_meta_box(
+				'handshaken_fields', 
+				__( 'Note Settings', 'handshaken' ), 
+				array( $this, 'render_meta_box_content' ),
+				$post_type,
+				'advanced',
+				'high'
+			);
+	}
 
-	// /**
-	//  * Save the meta when the post is saved.
-	//  *
-	//  * @param int $post_id The ID of the post being saved.
-	//  */
-	// public function save( $post_id ) {
+	/**
+	 * Save the meta when the post is saved.
+	 *
+	 * @param int $post_id The ID of the post being saved.
+	 */
+	public function save( $post_id ) {
 	
-	// 	/*
-	// 	 * We need to verify this came from the our screen and with proper authorization,
-	// 	 * because save_post can be triggered at other times.
-	// 	 */
+		/*
+		 * We need to verify this came from the our screen and with proper authorization,
+		 * because save_post can be triggered at other times.
+		 */
 
-	// 	// Check if our nonce is set.
-	// 	if ( ! isset( $_POST['handshaken_inner_custom_box_nonce'] ) )
-	// 		return $post_id;
+		// Check if our nonce is set.
+		if ( ! isset( $_POST['handshaken_inner_custom_box_nonce'] ) )
+			return $post_id;
 
-	// 	$nonce = $_POST['handshaken_inner_custom_box_nonce'];
+		$nonce = $_POST['handshaken_inner_custom_box_nonce'];
 
-	// 	// Verify that the nonce is valid.
-	// 	if ( ! wp_verify_nonce( $nonce, 'handshaken_inner_custom_box' ) )
-	// 		return $post_id;
+		// Verify that the nonce is valid.
+		if ( ! wp_verify_nonce( $nonce, 'handshaken_inner_custom_box' ) )
+			return $post_id;
 
-	// 	// If this is an autosave, our form has not been submitted,
- //                //     so we don't want to do anything.
-	// 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
-	// 		return $post_id;
+		// If this is an autosave, our form has not been submitted,
+                //     so we don't want to do anything.
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+			return $post_id;
 
-	// 	// Check the user's permissions.
-	// 	if ( 'page' == $_POST['post_type'] ) {
+		// Check the user's permissions.
+		if ( 'page' == $_POST['post_type'] ) {
 
-	// 		if ( ! current_user_can( 'edit_page', $post_id ) )
-	// 			return $post_id;
+			if ( ! current_user_can( 'edit_page', $post_id ) )
+				return $post_id;
 	
-	// 	} else {
+		} else {
 
-	// 		if ( ! current_user_can( 'edit_post', $post_id ) )
-	// 			return $post_id;
-	// 	}
+			if ( ! current_user_can( 'edit_post', $post_id ) )
+				return $post_id;
+		}
 
-	// 	/* OK, its safe for us to save the data now. */
+		/* OK, its safe for us to save the data now. */
 
-	// 	// Sanitize the user input.
-	// 	$mydata = sanitize_text_field( $_POST['handshaken_message'] );
+		// Sanitize the user input.
+		$mydata = sanitize_text_field( $_POST['handshaken_message'] );
 
-	// 	// Update the meta field.
-	// 	update_post_meta( $post_id, '_my_meta_value_key', $mydata );
-	// }
+		// Update the meta field.
+		update_post_meta( $post_id, '_my_meta_value_key', $mydata );
+	}
 
 
-	// /**
-	//  * Render Meta Box content.
-	//  *
-	//  * @param WP_Post $post The post object.
-	//  */
-	// public function render_meta_box_content( $post ) {
+	/**
+	 * Render Meta Box content.
+	 *
+	 * @param WP_Post $post The post object.
+	 */
+	public function render_meta_box_content( $post ) {
 	
-	// 	// Add an nonce field so we can check for it later.
-	// 	wp_nonce_field( 'handshaken_inner_custom_box', 'handshaken_inner_custom_box_nonce' );
+		// Add an nonce field so we can check for it later.
+		wp_nonce_field( 'handshaken_inner_custom_box', 'handshaken_inner_custom_box_nonce' );
 
-	// 	// Use get_post_meta to retrieve an existing value from the database.
-	// 	$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
+		// Use get_post_meta to retrieve an existing value from the database.
+		$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
 
-	// 	// Display the form, using the current value.
-	// 	echo '<label for="handshaken_message">';
-	// 	_e( 'Note Message', 'handshaken' );
-	// 	echo '</label> ';
-	// 	echo '<textarea id="handshaken_message" name="handshaken_message">' . esc_attr( $value ) . '</textarea>';
+		// Display the form, using the current value.
 
-	// 	echo '<label for="myplugin_new_field">';
-	// 	_e( 'Description for this field', 'myplugin_textdomain' );
-	// 	echo '</label> ';
-	// 	echo '<input type="text" id="myplugin_new_field" name="myplugin_new_field"';
- //                echo ' value="' . esc_attr( $value ) . '" size="25" />';
+		// Recipient Field
+		echo '<p class="label">';
+		echo '<label for="handshaken_recipient">';
+		_e( 'Recipient', 'handshaken' ); 
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo 'Choose the recipient for this note.';
+		echo '</p>';
+		echo '<select id="handshaken_recipient" name="handshaken_recipient" class="handshaken_field">';
 
+               //The Loop for Recipients
+				$args = array( 'post_type' => 'recipients', 'posts_per_page' => '-1' );
+				$recipients = new WP_Query( $args );
+				if ( $recipients->have_posts() ) : while ( $recipients->have_posts() ) : $recipients->the_post();
+					echo '<option value="Add New Recipient">Add New Recipient</option>';
+					echo '<option value="' . the_title() .'">' . the_title(); '</option>'; //TODO fix to have name display
+				endwhile;
 
+				wp_reset_postdata();
+
+				else:
+					echo '<option value="Add New Recipient">Add New Recipient</option>';
+				endif;
+
+        echo '</select><br>'; 
+
+        //Sender Field
+        echo '<p class="label">';
+        echo '<label for="handshaken_sender">';
+		_e( 'Sender', 'handshaken' ); 
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo 'Choose the sender for this note.';
+		echo '</p>';
+		echo '<select id="handshaken_sender" name="handshaken_sender" class="handshaken_field">';
+               
+               //The Loop for Senders
+				$args = array( 'post_type' => 'senders', 'posts_per_page' => '-1' );
+				$senders = new WP_Query( $args );
+				if ( $senders->have_posts() ) : while ( $senders->have_posts() ) : $senders->the_post();
+					echo '<option value="Add New Sender">Add New Sender</option>';
+					echo '<option value="' . the_title() .'">' . the_title() . '</option>'; //TODO fix to have name display
+				endwhile;
+
+				wp_reset_postdata();
+
+				else:
+					echo '<option value="Add New Sender">Add New Sender</option>';
+				endif;
+
+        echo '</select><br>'; 
+
+        //Stationary Field
+        echo '<p class="label">';
+        echo '<label for="handshaken_stationary">';
+		_e( 'Stationary', 'handshaken' ); 
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo 'Choose the Stationary design note.';
+		echo '</p>';
+		echo '<select id="handshaken_stationary" name="handshaken_stationary" class="handshaken_field">';
+
+				//Stationary API
+				$stationary = wp_remote_get( 'https://api.hellobond.com/account/products/?type=stationery&count=-1&page=1&sort_by=id&sort_dir=asc' );
+				if( is_array($stationary) ) {
+					$name = $stationary['name']; // Name of Stationary
+					$stationary_id = $stationary['id']; // ID of Stationary
+				}	
+               
+    //         	//The Loop for stationary
+				// $args = array( 'post_type' => 'message_templates', 'posts_per_page' => '-1' );
+				// $senders = new WP_Query( $args );
+				// if ( $senders->have_posts() ) : while ( $senders->have_posts() ) : $senders->the_post();
+				// 	echo '<option value="' . /* Pull in Stationary Name */ .'">' . /* Pull in Stationary Name */ . '</option>'; 
+				// endwhile;
+
+				// wp_reset_postdata();
+
+				// endif;
+
+        echo '</select><br>'; 
+
+        //Message Template Field
+        echo '<p class="label">';
+        echo '<label for="handshaken_message_template">';
+		_e( 'Message Template', 'handshaken' ); 
+		echo '</label> <br>';
+		echo '(Optional) Choose a pre-drafted message instead of writing your own.';
+		echo '</p>';
+		echo '<select id="handshaken_message_template" name="handshaken_message_template" class="handshaken_field">';
+               
+               //The Loop for Message Templates
+				$args = array( 'post_type' => 'message_templates', 'posts_per_page' => '-1' );
+				$senders = new WP_Query( $args );
+				if ( $senders->have_posts() ) : while ( $senders->have_posts() ) : $senders->the_post();
+					echo '<option value="I will write my own message">I will write my own message</option>';
+					echo '<option value="' . the_title() .'">' . the_title() . '</option>'; //TODO fix to have name display
+				endwhile;
+
+				wp_reset_postdata();
+
+				else:
+					echo '<option value="I will write my own message">I will write my own message</option>';
+				endif;
+
+        echo '</select><br>'; 
+
+        //Message Field
+        echo '<p class="label">';
+		echo '<label for="handshaken_message">';
+		_e( 'Message', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo 'Write your message below.';
+		echo '</p>';
+		echo '<textarea id="handshaken_message" name="handshaken_message" class="handshaken_field">' . esc_attr( $value ) . '</textarea>';
+		
+    }
 
 	public function init_taxonomies() {
 
