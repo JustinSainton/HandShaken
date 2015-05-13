@@ -93,7 +93,7 @@ class WP_HandShaken {
 			'label'               => __( 'Notes', 'handshaken' ),
 			'description'         => __( 'Custom handwritten notes', 'handshaken' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'custom-fields', 'editor' ),
+			'supports'            => array( 'title', 'custom-fields' ),
 			'taxonomies'          => array( 'category' ),
 			'hierarchical'        => false,
 			'public'              => true,
@@ -108,6 +108,8 @@ class WP_HandShaken {
 			'exclude_from_search' => false,
 			'publicly_queryable'  => false,
 			'capability_type'     => 'post',
+			'rewrite'  			  => array('slug' => 'notes'),
+
 		);
 
 		register_post_type( 'notes', $args );
@@ -203,7 +205,7 @@ class WP_HandShaken {
 			'label'               => __( 'Message Templates', 'handshaken' ),
 			'description'         => __( 'Pre-drafted reusable messages', 'handshaken' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'editor' ),
+			'supports'            => array( 'title', 'custom-fields' ),
 			'taxonomies'          => array(),
 			'hierarchical'        => false,
 			'public'              => true,
@@ -229,9 +231,27 @@ class WP_HandShaken {
 	public function add_meta_box( $post_type ) {
         $post_type = 'notes';             //limit meta box to certain post types
 			add_meta_box(
-				'handshaken_fields', 
+				'handshaken_note_settings', 
 				__( 'Note Settings', 'handshaken' ), 
-				array( $this, 'render_meta_box_content' ),
+				array( $this, 'render_meta_box_content_note' ),
+				$post_type,
+				'advanced',
+				'high'
+			);
+		$post_type = 'senders';             //limit meta box to certain post types
+			add_meta_box(
+				'handshaken_sender_settings', 
+				__( 'Sender Settings', 'handshaken' ), 
+				array( $this, 'render_meta_box_content_sender' ),
+				$post_type,
+				'advanced',
+				'high'
+			);
+		$post_type = 'recipients';             //limit meta box to certain post types
+			add_meta_box(
+				'handshaken_sender_settings', 
+				__( 'Sender Settings', 'handshaken' ), 
+				array( $this, 'render_meta_box_content_recipient' ),
 				$post_type,
 				'advanced',
 				'high'
@@ -288,11 +308,11 @@ class WP_HandShaken {
 
 
 	/**
-	 * Render Meta Box content.
+	 * Render Note Meta Box content.
 	 *
 	 * @param WP_Post $post The post object.
 	 */
-	public function render_meta_box_content( $post ) {
+	public function render_meta_box_content_note( $post ) {
 	
 		// Add an nonce field so we can check for it later.
 		wp_nonce_field( 'handshaken_inner_custom_box', 'handshaken_inner_custom_box_nonce' );
@@ -308,7 +328,6 @@ class WP_HandShaken {
 		_e( 'Recipient', 'handshaken' ); 
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
-		echo 'Choose the recipient for this note.';
 		echo '</p>';
 		echo '<select id="handshaken_recipient" name="handshaken_recipient" class="handshaken_field">';
 			echo '<option value="Select a recipient" selected="selected">Select a recipient</option>';
@@ -335,7 +354,6 @@ class WP_HandShaken {
 		_e( 'Sender', 'handshaken' ); 
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
-		echo 'Choose the sender for this note.';
 		echo '</p>';
 		echo '<select id="handshaken_sender" name="handshaken_sender" class="handshaken_field">';
                echo '<option value="Select a sender" selected="selected">Select a sender</option>';
@@ -362,7 +380,6 @@ class WP_HandShaken {
 		_e( 'Stationary', 'handshaken' ); 
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
-		echo 'Choose the Stationary design note.';
 		echo '</p>';
 		echo '<select id="handshaken_stationary" name="handshaken_stationary" class="handshaken_field">';
 			echo '<option value="Select a stationary" selected="selected">Select a stationary</option>';
@@ -423,6 +440,171 @@ class WP_HandShaken {
 		echo '<pre>';
 	    var_dump($stationary);
 		echo '</pre>';
+
+    }
+
+    /**
+	 * Render Recipient Meta Box content.
+	 *
+	 * @param WP_Post $post The post object.
+	 */
+	public function render_meta_box_content_recipient( $post ) {
+	
+		// Add an nonce field so we can check for it later.
+		wp_nonce_field( 'handshaken_inner_custom_box', 'handshaken_inner_custom_box_nonce' );
+
+		// Use get_post_meta to retrieve an existing value from the database.
+		$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
+
+		// Display the form, using the current value.
+		echo '<p class="label">';
+		echo '<label for="handshaken_recipient_first">';
+		_e( 'First Name', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo 'Write your message below.';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_first" name="handshaken_recipient_first"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+    }
+
+    /**
+	 * Render Sender Meta Box content.
+	 *
+	 * @param WP_Post $post The post object.
+	 */
+	public function render_meta_box_content_sender( $post ) {
+	
+		// Add an nonce field so we can check for it later.
+		wp_nonce_field( 'handshaken_inner_custom_box', 'handshaken_inner_custom_box_nonce' );
+
+		// Use get_post_meta to retrieve an existing value from the database.
+		$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
+
+		// Display the form, using the current value.
+
+		//First Name
+		echo '<p class="label">';
+		echo '<label for="handshaken_sender_first">';
+		_e( 'First Name', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_first" name="handshaken_sender_first"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //Organization Name
+        echo '<p class="label">';
+		echo '<label for="handshaken_sender_organization">';
+		_e( 'Organization Name', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_organization" name="handshaken_sender_organization"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //Address Line 1
+        echo '<p class="label">';
+		echo '<label for="handshaken_sender_address1">';
+		_e( 'Address Line 1', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_address1" name="handshaken_sender_address1"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //Address Line 2
+		echo '<p class="label">';
+		echo '<label for="handshaken_sender_address2">';
+		_e( 'Address Line 2', 'handshaken' );
+		echo '</label> <br>';
+		echo 'Enter sender&#39;s suite, apt, etc.';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_address2" name="handshaken_sender_address2"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //City
+        echo '<p class="label">';
+		echo '<label for="handshaken_sender_city">';
+		_e( 'City', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_city" name="handshaken_sender_city"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //State/Providence
+        echo '<p class="label">';
+		echo '<label for="handshaken_sender_state">';
+		_e( 'State/Providence', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_state" name="handshaken_sender_state"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //Zip/Postal Code
+        echo '<p class="label">';
+		echo '<label for="handshaken_sender_zip">';
+		_e( 'Zip/Postal Code', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_zip" name="handshaken_sender_zip"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //Handwriting Style
+        echo '<p class="label">';
+        echo '<label for="handshaken_sender_handwriting">';
+		_e( 'Handwriting Style', 'handshaken' ); 
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<select id="handshaken_sender_handwriting" name="handshaken_sender_handwriting" class="handshaken_field">';
+			echo '<option value="Select a handwriting style" selected="selected">Select a handwriting style</option>';
+				
+				//Stationary API and loop
+				$stationary = wp_remote_get( 'https://private-85d07-bond.apiary-mock.com/account/products/?type=stationery&count=25&page=1&sort_by=id&sort_dir=asc' );
+				$data = json_decode( wp_remote_retrieve_body( wp_remote_get('https://private-85d07-bond.apiary-mock.com/account/products/?type=stationery&count=25&page=1&sort_by=id&sort_dir=asc' ) ) ); 
+				$response = $data->data;
+
+				foreach ( $response as $item ) {
+					if( $item->type == 'handwriting-style' ) {
+						$handwriting_id = $item->id; 
+						$handwriting_name = $item->name;
+						echo '<option value="' . $handwriting_name . '">' . $handwriting_name . '</option>';
+					}
+				}
+               
+        echo '</select><br>'; 
+
+        //Existing User
+        echo '<p class="label">';
+        echo '<label for="handshaken_sender_user">';
+		_e( 'Connect with a user?', 'handshaken' ); 
+		echo '</label> <br>';
+		echo 'Choose the existing user this sender will be associated with.';
+		echo '</p>';
+		echo '<select id="handshaken_sender_user" name="handshaken_sender_user" class="handshaken_field">';
+			echo '<option value="Select a user" selected="selected">Select a user</option>';
+				
+				//User Data
+				$args = array(
+					'blog_id'      => $GLOBALS['blog_id'],
+					'role'         => array( 'author', 'editor', 'admin' ),
+					'orderby'      => 'nicename',
+					'order'        => 'ASC',
+				);
+				$blogusers = get_users( $args );
+				
+				// User loop
+				foreach ( $blogusers as $user ) {
+					$user_name = $user->display_name;
+					echo '<option value="' . $user_name . '">' . $user_name . '</option>';
+				}
+               
+        echo '</select><br>'; 
 
     }
 
