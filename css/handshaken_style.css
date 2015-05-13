@@ -1,0 +1,18 @@
+
+
+.label p {
+	color: gray;
+}
+
+.label label {
+	font-weight: bold;
+}
+
+.label span {
+	color: red;
+	margin-left: 0.25rem;
+}
+
+.handshaken_field {
+	min-width: 50%;
+}
