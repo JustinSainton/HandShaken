@@ -51,6 +51,24 @@ class WP_HandShaken {
 		add_action( 'init', array( self::$instance, 'init_taxonomies' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
         add_action( 'save_post', array( $this, 'save' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_select2_jquery' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_handshaken_styles' ) );
+	}
+
+	public function enqueue_select2_jquery() {
+
+		wp_register_style( 'select2css', 'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css', false, '1.0', 'all' );
+	    wp_register_script( 'select2', 'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js', array( 'jquery' ), '1.0', true );
+	    wp_enqueue_style( 'select2css' );
+	    wp_enqueue_script( 'select2' );
+
+	}
+
+	public function enqueue_handshaken_styles() {
+
+		wp_register_style( 'handshaken_css', plugins_url( 'HandShaken/css/handshaken_style.css' ) );
+	    wp_enqueue_style( 'handshaken_css' );
+
 	}
 
 	public function init_post_types() {
@@ -293,6 +311,7 @@ class WP_HandShaken {
 		echo 'Choose the recipient for this note.';
 		echo '</p>';
 		echo '<select id="handshaken_recipient" name="handshaken_recipient" class="handshaken_field">';
+			echo '<option value="Select a recipient" selected="selected">Select a recipient</option>';
 
                //The Loop for Recipients
 				$args = array( 'post_type' => 'recipients', 'posts_per_page' => '-1' );
@@ -319,12 +338,13 @@ class WP_HandShaken {
 		echo 'Choose the sender for this note.';
 		echo '</p>';
 		echo '<select id="handshaken_sender" name="handshaken_sender" class="handshaken_field">';
-               
+               echo '<option value="Select a sender" selected="selected">Select a sender</option>';
+               echo '<option value="Add New Sender" >Add New Sender</option>';
+
                //The Loop for Senders
 				$args = array( 'post_type' => 'senders', 'posts_per_page' => '-1' );
 				$senders = new WP_Query( $args );
 				if ( $senders->have_posts() ) : while ( $senders->have_posts() ) : $senders->the_post();
-					echo '<option value="Add New Sender">Add New Sender</option>';
 					echo '<option value="' . the_title() .'">' . the_title() . '</option>'; //TODO fix to have name display
 				endwhile;
 
@@ -345,26 +365,25 @@ class WP_HandShaken {
 		echo 'Choose the Stationary design note.';
 		echo '</p>';
 		echo '<select id="handshaken_stationary" name="handshaken_stationary" class="handshaken_field">';
+			echo '<option value="Select a stationary" selected="selected">Select a stationary</option>';
+				
+				//Stationary API and loop
+				$stationary = wp_remote_get( 'https://private-85d07-bond.apiary-mock.com/account/products/?type=stationery&count=25&page=1&sort_by=id&sort_dir=asc' );
+				$data = json_decode( wp_remote_retrieve_body( wp_remote_get('https://private-85d07-bond.apiary-mock.com/account/products/?type=stationery&count=25&page=1&sort_by=id&sort_dir=asc' ) ) ); 
+				$response = $data->data;
 
-				//Stationary API
-				$stationary = wp_remote_get( 'https://api.hellobond.com/account/products/?type=stationery&count=-1&page=1&sort_by=id&sort_dir=asc' );
-				if( is_array($stationary) ) {
-					$name = $stationary['name']; // Name of Stationary
-					$stationary_id = $stationary['id']; // ID of Stationary
-				}	
+				foreach ( $response as $item ) {
+					if( $item->type == 'stationery' ) {
+						$stationary_id = $item->id; 
+						$stationary_name = $item->name;
+						$front = $item->front_img_url;
+						echo '<option value="' . $stationary_name . '">' . $stationary_name . '</option>';
+					}
+				}
                
-    //         	//The Loop for stationary
-				// $args = array( 'post_type' => 'message_templates', 'posts_per_page' => '-1' );
-				// $senders = new WP_Query( $args );
-				// if ( $senders->have_posts() ) : while ( $senders->have_posts() ) : $senders->the_post();
-				// 	echo '<option value="' . /* Pull in Stationary Name */ .'">' . /* Pull in Stationary Name */ . '</option>'; 
-				// endwhile;
-
-				// wp_reset_postdata();
-
-				// endif;
-
         echo '</select><br>'; 
+
+        echo '<img src=' . $front . '" />';
 
         //Message Template Field
         echo '<p class="label">';
@@ -400,7 +419,11 @@ class WP_HandShaken {
 		echo 'Write your message below.';
 		echo '</p>';
 		echo '<textarea id="handshaken_message" name="handshaken_message" class="handshaken_field">' . esc_attr( $value ) . '</textarea>';
-		
+	
+		echo '<pre>';
+	    var_dump($stationary);
+		echo '</pre>';
+
     }
 
 	public function init_taxonomies() {
