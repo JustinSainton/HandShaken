@@ -93,7 +93,7 @@ class WP_HandShaken {
 			'label'               => __( 'Notes', 'handshaken' ),
 			'description'         => __( 'Custom handwritten notes', 'handshaken' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'custom-fields' ),
+			'supports'            => array( 'title' ),
 			'taxonomies'          => array( 'category' ),
 			'hierarchical'        => false,
 			'public'              => true,
@@ -133,7 +133,7 @@ class WP_HandShaken {
 			'label'               => __( 'Recipients', 'handshaken' ),
 			'description'         => __( 'Recipient of a Bond Handwritten Note', 'handshaken' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'custom-fields', ),
+			'supports'            => array( 'title' ),
 			'taxonomies'          => array( 'category' ),
 			'hierarchical'        => false,
 			'public'              => true,
@@ -169,7 +169,7 @@ class WP_HandShaken {
 			'label'               => __( 'Senders', 'handshaken' ),
 			'description'         => __( 'Sender of a Bond Handwritten Note', 'handshaken' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'custom-fields', ),
+			'supports'            => array( 'title' ),
 			'taxonomies'          => array( 'category' ),
 			'hierarchical'        => false,
 			'public'              => true,
@@ -205,7 +205,7 @@ class WP_HandShaken {
 			'label'               => __( 'Message Templates', 'handshaken' ),
 			'description'         => __( 'Pre-drafted reusable messages', 'handshaken' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'custom-fields' ),
+			'supports'            => array( 'title' ),
 			'taxonomies'          => array(),
 			'hierarchical'        => false,
 			'public'              => true,
@@ -235,7 +235,7 @@ class WP_HandShaken {
 				__( 'Note Settings', 'handshaken' ), 
 				array( $this, 'render_meta_box_content_note' ),
 				$post_type,
-				'advanced',
+				'normal',
 				'high'
 			);
 		$post_type = 'senders';             //limit meta box to certain post types
@@ -244,7 +244,7 @@ class WP_HandShaken {
 				__( 'Sender Settings', 'handshaken' ), 
 				array( $this, 'render_meta_box_content_sender' ),
 				$post_type,
-				'advanced',
+				'normal',
 				'high'
 			);
 		$post_type = 'recipients';             //limit meta box to certain post types
@@ -253,7 +253,7 @@ class WP_HandShaken {
 				__( 'Sender Settings', 'handshaken' ), 
 				array( $this, 'render_meta_box_content_recipient' ),
 				$post_type,
-				'advanced',
+				'normal',
 				'high'
 			);
 	}
