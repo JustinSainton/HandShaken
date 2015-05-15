@@ -350,7 +350,7 @@ class WP_HandShaken {
 				$recipients = new WP_Query( $args );
 				if ( $recipients->have_posts() ) : while ( $recipients->have_posts() ) : $recipients->the_post();
 					echo '<option value="Add New Recipient">Add New Recipient</option>';
-					echo '<option value="' . the_title() .'">' . the_title(); '</option>'; //TODO fix to have name display
+					echo '<option value="' . get_the_title() . '">' . get_the_title() . '</option>'; //TODO fix to have name display
 				endwhile;
 
 				wp_reset_postdata();
@@ -376,7 +376,7 @@ class WP_HandShaken {
 				$args = array( 'post_type' => 'senders', 'posts_per_page' => '-1' );
 				$senders = new WP_Query( $args );
 				if ( $senders->have_posts() ) : while ( $senders->have_posts() ) : $senders->the_post();
-					echo '<option value="' . the_title() .'">' . the_title() . '</option>'; //TODO fix to have name display
+					echo '<option value="' . get_the_title() . '">' . get_the_title() . '</option>'; //TODO fix to have name display
 				endwhile;
 
 				wp_reset_postdata();
@@ -398,7 +398,6 @@ class WP_HandShaken {
 			echo '<option value="Select a stationary" selected="selected">Select a stationary</option>';
 				
 				//Stationary API and loop
-				$stationary = wp_remote_get( 'https://private-85d07-bond.apiary-mock.com/account/products/?type=stationery&count=25&page=1&sort_by=id&sort_dir=asc' );
 				$data = json_decode( wp_remote_retrieve_body( wp_remote_get('https://private-85d07-bond.apiary-mock.com/account/products/?type=stationery&count=25&page=1&sort_by=id&sort_dir=asc' ) ) ); 
 				$response = $data->data;
 
@@ -429,7 +428,7 @@ class WP_HandShaken {
 				$senders = new WP_Query( $args );
 				if ( $senders->have_posts() ) : while ( $senders->have_posts() ) : $senders->the_post();
 					echo '<option value="I will write my own message">I will write my own message</option>';
-					echo '<option value="' . the_title() .'">' . the_title() . '</option>'; //TODO fix to have name display
+					echo '<option value="' . get_the_title() . '">' . get_the_title() . '</option>'; //TODO fix to have name display
 				endwhile;
 
 				wp_reset_postdata();
@@ -449,10 +448,6 @@ class WP_HandShaken {
 		echo 'Write your message below.';
 		echo '</p>';
 		echo '<textarea id="handshaken_message" name="handshaken_message" class="handshaken_field">' . esc_attr( $value ) . '</textarea>';
-	
-		echo '<pre>';
-	    var_dump($stationary);
-		echo '</pre>';
 
     }
 
