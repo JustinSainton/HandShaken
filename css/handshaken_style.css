@@ -17,3 +17,8 @@
 .handshaken_field {
 	min-width: 50%;
 }
+
+#handshaken_message {
+	width: 100%;
+	min-height: 200px;
+}
