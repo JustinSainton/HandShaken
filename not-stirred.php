@@ -53,6 +53,19 @@ class WP_HandShaken {
         add_action( 'save_post', array( $this, 'save' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_select2_jquery' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_handshaken_styles' ) );
+        add_filter( 'enter_title_here', function( $placeholder, $post ) {
+            if ( 'recipients' == $post->post_type ) {
+                $placeholder = 'Enter full name of recipient here';
+            } else if ( 'message_templates' == $post->post_type ) {
+                $placeholder = 'Enter message template name here';
+            } else if ( 'notes' == $post->post_type ) {
+                $placeholder = 'Enter note title here';
+            } else if ( 'senders' == $post->post_type ) {
+                $placeholder = 'Enter full name of sender here';
+            }
+
+            return $placeholder;
+        }, 10, 2 );
 	}
 
 	public function enqueue_select2_jquery() {
@@ -205,7 +218,7 @@ class WP_HandShaken {
 			'label'               => __( 'Message Templates', 'handshaken' ),
 			'description'         => __( 'Pre-drafted reusable messages', 'handshaken' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title' ),
+			'supports'            => array( 'title', 'editor' ),
 			'taxonomies'          => array(),
 			'hierarchical'        => false,
 			'public'              => true,
