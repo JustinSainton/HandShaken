@@ -249,8 +249,8 @@ class WP_HandShaken {
 			);
 		$post_type = 'recipients';             //limit meta box to certain post types
 			add_meta_box(
-				'handshaken_sender_settings', 
-				__( 'Sender Settings', 'handshaken' ), 
+				'handshaken_recipient_settings', 
+				__( 'Recipient Settings', 'handshaken' ), 
 				array( $this, 'render_meta_box_content_recipient' ),
 				$post_type,
 				'normal',
@@ -462,9 +462,68 @@ class WP_HandShaken {
 		_e( 'First Name', 'handshaken' );
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
-		echo 'Write your message below.';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_first" name="handshaken_recipient_first"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //Organization Name
+        echo '<p class="label">';
+		echo '<label for="handshaken_recipient_organization">';
+		_e( 'Organization Name', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_organization" name="handshaken_recipient_organization"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //Address Line 1
+        echo '<p class="label">';
+		echo '<label for="handshaken_recipient_address1">';
+		_e( 'Address Line 1', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_address1" name="handshaken_recipient_address1"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //Address Line 2
+		echo '<p class="label">';
+		echo '<label for="handshaken_recipient_address2">';
+		_e( 'Address Line 2', 'handshaken' );
+		echo '</label> <br>';
+		echo 'Enter sender&#39;s suite, apt, etc.';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_address2" name="handshaken_recipient_address2"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //City
+        echo '<p class="label">';
+		echo '<label for="handshaken_recipient_city">';
+		_e( 'City', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_city" name="handshaken_recipient_city"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //State/Providence
+        echo '<p class="label">';
+		echo '<label for="handshaken_recipient_state">';
+		_e( 'State/Providence', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_state" name="handshaken_recipient_state"';
+            echo ' value="' . esc_attr( $value ) . '" />';
+
+        //Zip/Postal Code
+        echo '<p class="label">';
+		echo '<label for="handshaken_recipient_zip">';
+		_e( 'Zip/Postal Code', 'handshaken' );
+		echo '<span class="required">*</span>';
+		echo '</label> <br>';
+		echo '</p>';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_zip" name="handshaken_recipient_zip"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
     }
