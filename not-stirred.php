@@ -31,6 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 1. Build out Handshaken API SDK.
  * 2. Build out settings panel for entering Handshaken data.
  * 3. Build out custom post types and taxonomies for notes, customers, addresses.
+ * 4. Fix formatting of textarea field for messages in Notes so formatting sends to Bond correctly.
+ * 5. Get custom fields to save on publish.
+ * 6. Make sender default to user if they've been connected.
+ * 7. Explore using placeholders from custom fields in message templates.
  */
 
 class WP_HandShaken {
