@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 5. Get custom fields to save on publish.
  * 6. Make sender default to user if they've been connected.
  * 7. Explore using placeholders from custom fields in message templates.
+ * 8. Connect dropdowns with Select2 AJAX
  */
 
 class WP_HandShaken {
