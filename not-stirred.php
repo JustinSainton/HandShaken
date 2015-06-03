@@ -303,22 +303,36 @@ class WP_HandShaken {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
 			return $post_id;
 
-		// Check the user's permissions.
-		if ( 'page' == $_POST['post_type'] ) {
-
-			if ( ! current_user_can( 'edit_page', $post_id ) )
-				return $post_id;
-	
-		} else {
-
-			if ( ! current_user_can( 'edit_post', $post_id ) )
-				return $post_id;
-		}
-
 		/* OK, its safe for us to save the data now. */
 
+		// //All inputs fields
+		// $inputs = array (
+		// 	'handshaken_recipient',
+		// 	'handshaken_sender',
+		// 	'handshaken_stationary',
+		// 	'handshaken_message_template',
+		// 	'handshaken_message',
+		// 	'handshaken_recipient_first',
+		// 	'handshaken_recipient_organization',
+		// 	'handshaken_recipient_address1',
+		// 	'handshaken_recipient_address2',
+		// 	'handshaken_recipient_city',
+		// 	'handshaken_recipient_state',
+		// 	'handshaken_recipient_zip',
+		// 	'handshaken_sender_first',
+		// 	'handshaken_sender_organization',
+		// 	'handshaken_sender_address1',
+		// 	'handshaken_sender_address2',
+		// 	'handshaken_sender_city',
+		// 	'handshaken_sender_state',
+		// 	'handshaken_sender_zip',
+		// 	'handshaken_sender_handwriting',
+		// 	'handshaken_sender_user'
+		// );
+
+
 		// Sanitize the user input.
-		$mydata = sanitize_text_field( $_POST['handshaken_message'] );
+		$mydata = sanitize_text_field( $_POST['handshaken'] );
 
 		// Update the meta field.
 		update_post_meta( $post_id, '_my_meta_value_key', $mydata );
@@ -347,7 +361,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<select id="handshaken_recipient" name="handshaken_recipient" class="handshaken_field">';
+		echo '<select id="handshaken_recipient" name="handshaken[handshaken_recipient]" class="handshaken_field">';
 			echo '<option value="Select a recipient" selected="selected">Select a recipient</option>';
 
                //The Loop for Recipients
@@ -373,7 +387,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<select id="handshaken_sender" name="handshaken_sender" class="handshaken_field">';
+		echo '<select id="handshaken_sender" name="handshaken[handshaken_sender]" class="handshaken_field">';
                echo '<option value="Select a sender" selected="selected">Select a sender</option>';
                echo '<option value="Add New Sender" >Add New Sender</option>';
 
@@ -399,7 +413,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<select id="handshaken_stationary" name="handshaken_stationary" class="handshaken_field">';
+		echo '<select id="handshaken_stationary" name="handshaken[handshaken_stationary]" class="handshaken_field">';
 			echo '<option value="Select a stationary" selected="selected">Select a stationary</option>';
 				
 				//Stationary API and loop
@@ -426,7 +440,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '(Optional) Choose a pre-drafted message instead of writing your own.';
 		echo '</p>';
-		echo '<select id="handshaken_message_template" name="handshaken_message_template" class="handshaken_field">';
+		echo '<select id="handshaken_message_template" name="handshaken[handshaken_message_template]" class="handshaken_field">';
                
                //The Loop for Message Templates
 				$args = array( 'post_type' => 'message_templates', 'posts_per_page' => '-1' );
@@ -452,7 +466,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo 'Write your message below.';
 		echo '</p>';
-		echo '<textarea id="handshaken_message" name="handshaken_message" class="handshaken_field">' . esc_attr( $value ) . '</textarea>';
+		echo '<textarea id="handshaken_message" name="handshaken[handshaken_message]" class="handshaken_field">' . esc_attr( $value ) . '</textarea>';
 
     }
 
@@ -476,7 +490,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_first" name="handshaken_recipient_first"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_first" name="handshaken[handshaken_recipient_first]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //Organization Name
@@ -486,7 +500,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_organization" name="handshaken_recipient_organization"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_organization" name="handshaken[handshaken_recipient_organization]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //Address Line 1
@@ -496,7 +510,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_address1" name="handshaken_recipient_address1"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_address1" name="handshaken[handshaken_recipient_address1]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //Address Line 2
@@ -506,7 +520,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo 'Enter sender&#39;s suite, apt, etc.';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_address2" name="handshaken_recipient_address2"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_address2" name="handshaken[handshaken_recipient_address2]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //City
@@ -516,7 +530,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_city" name="handshaken_recipient_city"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_city" name="handshaken[handshaken_recipient_city]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //State/Providence
@@ -526,7 +540,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_state" name="handshaken_recipient_state"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_state" name="handshaken[handshaken_recipient_state]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //Zip/Postal Code
@@ -536,7 +550,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_zip" name="handshaken_recipient_zip"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_zip" name="handshaken[handshaken_recipient_zip]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
     }
@@ -563,7 +577,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_sender_first" name="handshaken_sender_first"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_first" name="handshaken[handshaken_sender_first]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //Organization Name
@@ -573,7 +587,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_sender_organization" name="handshaken_sender_organization"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_organization" name="handshaken[handshaken_sender_organization]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //Address Line 1
@@ -583,7 +597,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_sender_address1" name="handshaken_sender_address1"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_address1" name="handshaken[handshaken_sender_address1]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //Address Line 2
@@ -593,7 +607,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo 'Enter sender&#39;s suite, apt, etc.';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_sender_address2" name="handshaken_sender_address2"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_address2" name="handshaken[handshaken_sender_address2]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //City
@@ -603,7 +617,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_sender_city" name="handshaken_sender_city"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_city" name="handshaken[handshaken_sender_city]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //State/Providence
@@ -613,7 +627,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_sender_state" name="handshaken_sender_state"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_state" name="handshaken[handshaken_sender_state]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //Zip/Postal Code
@@ -623,7 +637,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<input type="text" class="handshaken_field" id="handshaken_sender_zip" name="handshaken_sender_zip"';
+		echo '<input type="text" class="handshaken_field" id="handshaken_sender_zip" name="handshaken[handshaken_sender_zip]"';
             echo ' value="' . esc_attr( $value ) . '" />';
 
         //Handwriting Style
@@ -633,7 +647,7 @@ class WP_HandShaken {
 		echo '<span class="required">*</span>';
 		echo '</label> <br>';
 		echo '</p>';
-		echo '<select id="handshaken_sender_handwriting" name="handshaken_sender_handwriting" class="handshaken_field">';
+		echo '<select id="handshaken_sender_handwriting" name="handshaken[handshaken_sender_handwriting]" class="handshaken_field">';
 			echo '<option value="Select a handwriting style" selected="selected">Select a handwriting style</option>';
 				
 				//Stationary API and loop
@@ -658,7 +672,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo 'Choose the existing user this sender will be associated with.';
 		echo '</p>';
-		echo '<select id="handshaken_sender_user" name="handshaken_sender_user" class="handshaken_field">';
+		echo '<select id="handshaken_sender_user" name="handshaken[handshaken_sender_user]" class="handshaken_field">';
 			echo '<option value="Select a user" selected="selected">Select a user</option>';
 				
 				//User Data
