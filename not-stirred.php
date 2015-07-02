@@ -490,7 +490,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_first" name="handshaken[handshaken_recipient_first]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_recipient_first' ] ) . '" />';
 
         //Organization Name
         echo '<p class="label">';
@@ -500,7 +500,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_organization" name="handshaken[handshaken_recipient_organization]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_recipient_organization' ] ) . '" />';
 
         //Address Line 1
         echo '<p class="label">';
@@ -510,7 +510,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_address1" name="handshaken[handshaken_recipient_address1]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_recipient_address1' ] ) . '" />';
 
         //Address Line 2
 		echo '<p class="label">';
@@ -520,7 +520,7 @@ class WP_HandShaken {
 		echo 'Enter sender&#39;s suite, apt, etc.';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_address2" name="handshaken[handshaken_recipient_address2]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_recipient_address2' ] ) . '" />';
 
         //City
         echo '<p class="label">';
@@ -530,7 +530,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_city" name="handshaken[handshaken_recipient_city]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_recipient_city' ] ) . '" />';
 
         //State/Providence
         echo '<p class="label">';
@@ -540,7 +540,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_state" name="handshaken[handshaken_recipient_state]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_recipient_state' ] ) . '" />';
 
         //Zip/Postal Code
         echo '<p class="label">';
@@ -550,7 +550,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_recipient_zip" name="handshaken[handshaken_recipient_zip]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_recipient_zip' ] ) . '" />';
 
     }
 
@@ -577,7 +577,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_sender_first" name="handshaken[handshaken_sender_first]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_sender_first' ] ) . '" />';
 
         //Organization Name
         echo '<p class="label">';
@@ -587,7 +587,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_sender_organization" name="handshaken[handshaken_sender_organization]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_sender_organization' ] ) . '" />';
 
         //Address Line 1
         echo '<p class="label">';
@@ -597,7 +597,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_sender_address1" name="handshaken[handshaken_sender_address1]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_sender_address1' ] ) . '" />';
 
         //Address Line 2
 		echo '<p class="label">';
@@ -607,7 +607,7 @@ class WP_HandShaken {
 		echo 'Enter sender&#39;s suite, apt, etc.';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_sender_address2" name="handshaken[handshaken_sender_address2]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_sender_address2' ] ) . '" />';
 
         //City
         echo '<p class="label">';
@@ -617,7 +617,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_sender_city" name="handshaken[handshaken_sender_city]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_sender_city' ] ) . '" />';
 
         //State/Providence
         echo '<p class="label">';
@@ -627,7 +627,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_sender_state" name="handshaken[handshaken_sender_state]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_sender_state' ] ) . '" />';
 
         //Zip/Postal Code
         echo '<p class="label">';
@@ -637,7 +637,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo '</p>';
 		echo '<input type="text" class="handshaken_field" id="handshaken_sender_zip" name="handshaken[handshaken_sender_zip]"';
-            echo ' value="' . esc_attr( $value ) . '" />';
+            echo ' value="' . esc_attr( $value[ 'handshaken_sender_zip' ] ) . '" />';
 
         //Handwriting Style
         echo '<p class="label">';
