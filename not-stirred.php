@@ -332,10 +332,10 @@ class WP_HandShaken {
 
 
 		// Sanitize the user input.
-		$mydata = sanitize_text_field( $_POST['handshaken'] );
+		$handshaken = array_map( 'sanitize_text_field', $_POST['handshaken'] );
 
 		// Update the meta field.
-		update_post_meta( $post_id, '_my_meta_value_key', $mydata );
+		update_post_meta( $post_id, 'handshaken', $handshaken );
 	}
 
 
@@ -350,7 +350,7 @@ class WP_HandShaken {
 		wp_nonce_field( 'handshaken_inner_custom_box', 'handshaken_inner_custom_box_nonce' );
 
 		// Use get_post_meta to retrieve an existing value from the database.
-		$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
+		$value = get_post_meta( $post->ID, 'handshaken', true );
 
 		// Display the form, using the current value.
 
@@ -369,7 +369,7 @@ class WP_HandShaken {
 				$recipients = new WP_Query( $args );
 				if ( $recipients->have_posts() ) : while ( $recipients->have_posts() ) : $recipients->the_post();
 					echo '<option value="Add New Recipient">Add New Recipient</option>';
-					echo '<option value="' . get_the_title() . '">' . get_the_title() . '</option>'; //TODO fix to have name display
+					echo '<option value="' . get_the_title() . '" ' . selected( get_the_title(), $value['handshaken_recipient'], false ) . '>' . get_the_title() . '</option>'; 
 				endwhile;
 
 				wp_reset_postdata();
@@ -395,7 +395,7 @@ class WP_HandShaken {
 				$args = array( 'post_type' => 'senders', 'posts_per_page' => '-1' );
 				$senders = new WP_Query( $args );
 				if ( $senders->have_posts() ) : while ( $senders->have_posts() ) : $senders->the_post();
-					echo '<option value="' . get_the_title() . '">' . get_the_title() . '</option>'; //TODO fix to have name display
+					echo '<option value="' . get_the_title() . '" ' . selected( get_the_title(), $value['handshaken_sender'], false ) . '>' . get_the_title() . '</option>'; 
 				endwhile;
 
 				wp_reset_postdata();
@@ -447,7 +447,7 @@ class WP_HandShaken {
 				$senders = new WP_Query( $args );
 				if ( $senders->have_posts() ) : while ( $senders->have_posts() ) : $senders->the_post();
 					echo '<option value="I will write my own message">I will write my own message</option>';
-					echo '<option value="' . get_the_title() . '">' . get_the_title() . '</option>'; //TODO fix to have name display
+					echo '<option value="' . get_the_title() . '" ' . selected( get_the_title(), $value['handshaken_message_template'], false ) . '>' . get_the_title() . '</option>'; 				
 				endwhile;
 
 				wp_reset_postdata();
@@ -466,8 +466,7 @@ class WP_HandShaken {
 		echo '</label> <br>';
 		echo 'Write your message below.';
 		echo '</p>';
-		echo '<textarea id="handshaken_message" name="handshaken[handshaken_message]" class="handshaken_field">' . esc_attr( $value ) . '</textarea>';
-
+		echo '<textarea id="handshaken_message" name="handshaken[handshaken_message]" class="handshaken_field">' . esc_textarea( $value['handshaken_message'] ) . '</textarea>';
     }
 
     /**
@@ -481,7 +480,7 @@ class WP_HandShaken {
 		wp_nonce_field( 'handshaken_inner_custom_box', 'handshaken_inner_custom_box_nonce' );
 
 		// Use get_post_meta to retrieve an existing value from the database.
-		$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
+		$value = get_post_meta( $post->ID, 'handshaken', true );
 
 		// Display the form, using the current value.
 		echo '<p class="label">';
@@ -566,7 +565,7 @@ class WP_HandShaken {
 		wp_nonce_field( 'handshaken_inner_custom_box', 'handshaken_inner_custom_box_nonce' );
 
 		// Use get_post_meta to retrieve an existing value from the database.
-		$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
+		$value = get_post_meta( $post->ID, 'handshaken', true );
 
 		// Display the form, using the current value.
 
